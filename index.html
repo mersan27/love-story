@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A premium interactive romantic gift — made with love.">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>For You · With Love</title>
+
+  <!-- Typography: Inter (Apple-like) + Instrument Serif (elegant display) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets (load order matters) -->
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/landing.css">
+  <link rel="stylesheet" href="css/gate.css">
+</head>
+<body>
+
+  <!-- Password gate (shown first) -->
+  <section class="gate" id="gate" aria-label="Password gate">
+    <div class="glass-card gate__card" id="gate-card">
+
+      <!-- Heart-shaped lock -->
+      <div class="heart-lock" id="heart-lock" aria-hidden="true">
+        <div class="heart-lock__glow"></div>
+        <svg class="heart-lock__svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <!-- Lock shackle -->
+          <path
+            class="heart-lock__shackle"
+            d="M 48 42 Q 48 28 60 28 Q 72 28 72 42"
+          />
+          <!-- Heart body -->
+          <path
+            class="heart-lock__body"
+            d="M 60 95 C 60 95 20 65 20 42 C 20 28 32 20 44 24 C 52 27 58 34 60 40 C 62 34 68 27 76 24 C 88 20 100 28 100 42 C 100 65 60 95 60 95 Z"
+          />
+          <!-- Keyhole -->
+          <circle class="heart-lock__keyhole" cx="60" cy="52" r="4" />
+          <rect class="heart-lock__keyhole" x="58" y="54" width="4" height="8" rx="2" />
+        </svg>
+      </div>
+
+      <h2 class="gate__title" data-gate-config="title">Unlock your gift</h2>
+      <p class="gate__subtitle" data-gate-config="subtitle">Enter the word that only we know</p>
+
+      <form class="gate__form" id="gate-form" autocomplete="off">
+        <div class="gate__input-wrap">
+          <input
+            class="gate__input"
+            id="gate-password"
+            type="password"
+            name="password"
+            placeholder="Password"
+            aria-label="Password"
+            required
+          >
+        </div>
+        <p class="gate__error" id="gate-error" role="alert" aria-live="polite"></p>
+        <button class="btn btn--primary" id="gate-submit" type="submit">
+          Unlock
+        </button>
+      </form>
+
+      <p class="gate__hint" data-gate-config="hint">Hint: think of our special word</p>
+    </div>
+  </section>
+
+  <!-- Ambient background layers -->
+  <div class="ambient" aria-hidden="true">
+    <div class="ambient__gradient"></div>
+    <div class="ambient__orb ambient__orb--1"></div>
+    <div class="ambient__orb ambient__orb--2"></div>
+    <div class="ambient__orb ambient__orb--3"></div>
+    <canvas class="ambient__canvas" id="particle-canvas"></canvas>
+  </div>
+
+  <!-- Landing page (hidden until gate unlocks) -->
+  <main class="landing" id="landing" aria-hidden="true">
+
+    <!-- Top badge -->
+    <header class="landing__header">
+      <div class="glass-badge" data-config="occasion">
+        Made with love
+      </div>
+    </header>
+
+    <!-- Hero content -->
+    <section class="landing__hero" aria-labelledby="hero-title">
+
+      <p class="landing__eyebrow" data-config="eyebrow">
+        A gift, just for you
+      </p>
+
+      <h1 class="landing__title" id="hero-title">
+        <span class="landing__title-line">For</span>
+        <span class="landing__title-name" data-config="recipientName">My Love</span>
+      </h1>
+
+      <p class="landing__subtitle" data-config="subtitle">
+        Something special awaits. Take a breath, tap below, and let the moment unfold.
+      </p>
+
+      <!-- Glass card CTA -->
+      <div class="glass-card landing__cta-card">
+        <div class="landing__cta-icon" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 26s-8-5.2-8-12a4 4 0 0 1 8-1.5 4 4 0 0 1 8 1.5c0 6.8-8 12-8 12z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="landing__cta-text" data-config="ctaText">
+          An interactive journey through our story
+        </p>
+        <button class="btn btn--primary" id="open-gift-btn" type="button">
+          <span data-config="ctaLabel">Open your gift</span>
+          <svg class="btn__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- Footer hint -->
+    <footer class="landing__footer">
+      <p class="landing__hint">
+        <span class="landing__hint-dot" aria-hidden="true"></span>
+        Tap to begin
+      </p>
+      <p class="landing__signature" data-config="senderName">— Yours</p>
+    </footer>
+
+  </main>
+
+  <!-- Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/gate.js"></script>
+  <script src="js/landing.js"></script>
+</body>
+</html>
