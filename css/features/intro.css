@@ -1,0 +1,141 @@
+/**
+ * Animated intro
+ * A short cinematic beat between the gate unlocking and the landing
+ * page revealing itself — the "unwrapping" moment. Echoes the
+ * heart-lock motif from the gate so the two scenes feel like one
+ * continuous gesture rather than two unrelated screens.
+ */
+
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-6);
+  background: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
+}
+
+.intro--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.intro--leaving {
+  opacity: 0;
+}
+
+.intro__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Radiant burst behind the heart, timed to the draw-in */
+.intro__glow {
+  position: absolute;
+  inset: -60%;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-accent-glow), transparent 70%);
+  opacity: 0;
+  transform: scale(0.6);
+}
+
+.intro--active .intro__glow {
+  animation: introGlow 2.6s var(--ease-out) 0.4s both;
+}
+
+.intro__heart {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  overflow: visible;
+}
+
+.intro__heart-path {
+  fill: rgba(255, 107, 138, 0.12);
+  stroke: var(--color-accent-soft);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-dasharray: 480;
+  stroke-dashoffset: 480;
+}
+
+/* Heart draws itself, then fills with a warm glow */
+.intro--active .intro__heart-path {
+  animation:
+    introDraw 1.4s var(--ease-out) both,
+    introFill 1s var(--ease-out) 1.2s both;
+}
+
+.intro__text {
+  position: relative;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+  text-align: center;
+  max-width: 32ch;
+  opacity: 0;
+}
+
+.intro--active .intro__text {
+  animation: fadeUp var(--duration-slow) var(--ease-out) 1.8s both;
+}
+
+.intro__skip {
+  position: absolute;
+  bottom: var(--space-8);
+  right: var(--space-8);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  opacity: 0;
+  padding: var(--space-2) var(--space-4);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-fast) var(--ease-out);
+}
+
+.intro--active .intro__skip {
+  animation: fadeIn var(--duration-normal) var(--ease-out) 1.4s both;
+}
+
+.intro__skip:hover {
+  color: var(--color-text-secondary);
+}
+
+/* ── Keyframes specific to this feature ─────────────── */
+
+@keyframes introDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes introFill {
+  to {
+    fill: rgba(255, 107, 138, 0.35);
+    filter: drop-shadow(0 0 16px var(--color-accent-glow));
+  }
+}
+
+@keyframes introGlow {
+  0%   { opacity: 0; transform: scale(0.6); }
+  50%  { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.3); }
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+
+@media (min-width: 640px) {
+  .intro__heart {
+    width: 120px;
+    height: 120px;
+  }
+}

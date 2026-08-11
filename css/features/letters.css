@@ -1,0 +1,254 @@
+/**
+ * Love letters
+ * ─────────────────────────────────────
+ * A shelf of sealed envelopes; opening one plays a small "unseal"
+ * beat and swaps into a reading view. The seal reuses the site's
+ * heart motif a fourth time (lock → intro draw → burst → seal).
+ */
+
+.letters {
+  position: relative;
+  z-index: 1;
+  min-height: 100dvh;
+  padding: var(--page-padding);
+  padding-bottom: var(--space-16);
+  max-width: calc(var(--max-width) + var(--page-padding) * 2);
+  margin-inline: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
+}
+
+.letters--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.letters__header {
+  padding-top: var(--space-2);
+  margin-bottom: var(--space-8);
+}
+
+/* ── Intro copy ──────────────────────────────────────── */
+
+.letters__intro {
+  text-align: center;
+  margin-bottom: var(--space-10);
+}
+
+.letters__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-3);
+}
+
+.letters__subtitle {
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  max-width: 46ch;
+  margin-inline: auto;
+  line-height: 1.65;
+  white-space: pre-line;
+}
+
+/* ── Envelope shelf ──────────────────────────────────── */
+
+.letters__shelf {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--space-5);
+}
+
+.letters__envelope {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-5);
+  overflow: hidden;
+  text-align: left;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  box-shadow: var(--glass-shadow);
+  transition:
+    transform var(--duration-normal) var(--ease-spring),
+    border-color var(--duration-fast) var(--ease-out),
+    opacity var(--duration-normal) var(--ease-out);
+}
+
+.letters__envelope::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 45% 0;
+  background: linear-gradient(135deg, rgba(255, 107, 138, 0.16), transparent 70%);
+  clip-path: polygon(0 0, 100% 0, 50% 62%);
+  transition: clip-path var(--duration-normal) var(--ease-out), opacity var(--duration-normal) var(--ease-out);
+}
+
+.letters__envelope:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-border-strong);
+}
+
+.letters__envelope--opening {
+  pointer-events: none;
+  transform: scale(0.96);
+  opacity: 0;
+}
+
+.letters__envelope--opening::before {
+  clip-path: polygon(0 0, 100% 0, 50% 0%);
+  opacity: 0;
+}
+
+.letters__seal {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--space-2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, var(--color-accent-soft), var(--color-accent) 70%);
+  box-shadow: 0 4px 14px rgba(255, 107, 138, 0.35);
+  color: var(--color-bg);
+  transition: transform var(--duration-normal) var(--ease-spring);
+}
+
+.letters__envelope--opening .letters__seal {
+  transform: scale(0) rotate(25deg);
+}
+
+.letters__envelope-date {
+  position: relative;
+  z-index: 1;
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.letters__envelope-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+
+/* ── Reading view ────────────────────────────────────── */
+
+.letters__reader {
+  animation: fadeUp var(--duration-slow) var(--ease-out) both;
+}
+
+.letters__back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-6);
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.letters__back:hover {
+  color: var(--color-text-secondary);
+}
+
+.letters__reader-card {
+  padding: var(--space-8) var(--space-6);
+}
+
+.letters__reader-date {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent-soft);
+  margin-bottom: var(--space-2);
+}
+
+.letters__reader-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  margin-bottom: var(--space-6);
+}
+
+.letters__reader-teaser {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-lg);
+  color: var(--color-accent-soft);
+  margin-bottom: var(--space-6);
+}
+
+.letters__reader-body {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  margin-bottom: var(--space-5);
+}
+
+.letters__reader-body:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Numbered list letters ───────────────────────────── */
+
+.letters__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin: var(--space-6) 0;
+  text-align: left;
+}
+
+.letters__list-item {
+  display: flex;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.letters__list-number {
+  flex: none;
+  min-width: 2.25em;
+  font-weight: 500;
+  color: var(--color-accent-soft);
+}
+
+.letters__list-gap-note {
+  padding-left: calc(2.25em + var(--space-3));
+  font-size: var(--text-xs);
+  font-style: italic;
+  color: var(--color-text-tertiary);
+}
+
+/* ── Responsive ─────────────────────────────────────── */
+
+@media (min-width: 640px) {
+  .letters__reader-card {
+    padding: var(--space-10) var(--space-8);
+  }
+}

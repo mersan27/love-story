@@ -1,0 +1,222 @@
+/**
+ * Proposal scene
+ * ─────────────────────────────────────
+ * A playful "will you..." moment right after the gate unlocks. The
+ * "No" button evades the pointer; "Yes" blooms into a heart-burst
+ * reveal. Reuses the site's heart motif a third time (lock → intro
+ * draw → burst) so it reads as one continuous idea.
+ */
+
+.proposal {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--page-padding);
+  background: var(--color-bg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--duration-slow) var(--ease-out),
+    visibility var(--duration-slow) var(--ease-out);
+}
+
+.proposal--active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.proposal--leaving {
+  opacity: 0;
+}
+
+.proposal__ambient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 20%, rgba(255, 107, 138, 0.14), transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Question state ─────────────────────────────────── */
+
+.proposal__question {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+}
+
+.proposal__eyebrow {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent-soft);
+  margin-bottom: var(--space-4);
+}
+
+.proposal__title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 400;
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-10);
+}
+
+.proposal__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  height: clamp(220px, 40vh, 320px);
+}
+
+.proposal__yes-btn,
+.proposal__no-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4) var(--space-8);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  border-radius: var(--radius-full);
+}
+
+.proposal__yes-btn {
+  color: var(--color-bg);
+  background: var(--color-text);
+  box-shadow: 0 2px 16px rgba(255, 255, 255, 0.12);
+  transition:
+    transform var(--duration-normal) var(--ease-spring),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.proposal__yes-btn:hover {
+  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.2);
+}
+
+.proposal__no-btn {
+  color: var(--color-text-secondary);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  transition: left 0.25s var(--ease-spring), top 0.25s var(--ease-spring);
+  touch-action: none;
+}
+
+.proposal__no-btn.is-dodging {
+  position: absolute;
+}
+
+/* Mercy state: after enough dodges, a click wiggles instead of
+   silently doing nothing — so keyboard/assistive users aren't stuck. */
+.proposal__no-btn--wiggle {
+  animation: shake 0.4s var(--ease-out);
+}
+
+/* ── Reveal state ────────────────────────────────────── */
+
+.proposal__reveal {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-8);
+  text-align: center;
+  padding: var(--page-padding);
+}
+
+.proposal__reveal-loader {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.proposal__reveal-loader span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.proposal__reveal-loader span:nth-child(2) { animation-delay: 0.15s; }
+.proposal__reveal-loader span:nth-child(3) { animation-delay: 0.3s; }
+
+.proposal__reveal-content {
+  position: relative;
+  max-width: 480px;
+  animation: fadeUp var(--duration-slow) var(--ease-out) both;
+}
+
+.proposal__burst {
+  position: absolute;
+  inset: -40% -60%;
+  pointer-events: none;
+}
+
+.proposal__spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 1.1rem;
+  color: var(--color-accent);
+  opacity: 0;
+  animation: proposalSpark 1.1s var(--ease-out) forwards;
+  animation-delay: var(--spark-delay, 0s);
+}
+
+.proposal__reveal-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-3);
+}
+
+.proposal__reveal-message {
+  font-size: var(--text-base);
+  font-weight: 300;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.proposal__continue-btn {
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  opacity: 0;
+  transition: color var(--duration-fast) var(--ease-out), border-color var(--duration-fast) var(--ease-out);
+}
+
+.proposal__continue-btn--visible {
+  animation: fadeIn var(--duration-normal) var(--ease-out) both;
+}
+
+.proposal__continue-btn:hover {
+  color: var(--color-text-secondary);
+  border-color: var(--glass-border-strong);
+}
+
+@keyframes proposalSpark {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform:
+      translate(calc(-50% + var(--dx, 0px)), calc(-50% + var(--dy, 0px)))
+      scale(1);
+  }
+}
